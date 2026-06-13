@@ -69,7 +69,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         version: "black-forest-labs/flux-canny-pro",
         input: {
-          image: imageDataUri,
+          control_image: imageDataUri,
           prompt: prompt,
           num_outputs: 1,
           guidance_scale: 30,
