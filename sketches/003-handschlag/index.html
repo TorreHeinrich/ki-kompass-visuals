@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KI-Kompass Bremen – Handschlag</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #faf6ee;
+    color: #2d2a24;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+  /* ========== HEADER ========== */
+  header {
+    padding: 20px 0;
+    border-bottom: 2px solid #e0d6c8;
+  }
+  .header-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 900px; margin: 0 auto; padding: 0 24px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+    text-decoration: none;
+  }
+  .logo-text {
+    font-weight: 900; font-size: 20px; color: #0f172a;
+  }
+  .logo-text span { color: #c1272d; }
+  nav a {
+    color: #5a5348; text-decoration: none; font-size: 13px; font-weight: 600;
+    margin-left: 20px; transition: color 0.2s;
+  }
+  nav a:hover { color: #c1272d; }
+  nav a.cta {
+    background: #c1272d; color: #faf6ee; padding: 8px 20px;
+    border-radius: 6px; font-size: 13px;
+  }
+  nav a.cta:hover { background: #a31e22; }
+
+  /* ========== LETTER HERO ========== */
+  .letter {
+    max-width: 700px; margin: 48px auto;
+    background: #fff; border-radius: 4px;
+    padding: 60px 56px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    border: 1px solid #e8e0d0;
+  }
+  .letter .from-line {
+    font-size: 11px; color: #8a7d6b; letter-spacing: 1px;
+    font-weight: 600; margin-bottom: 32px;
+  }
+  .letter .date {
+    font-size: 13px; color: #8a7d6b; margin-bottom: 24px;
+  }
+  .letter h1 {
+    font-size: 36px; font-weight: 900; color: #0f172a;
+    margin-bottom: 8px; line-height: 1.2;
+  }
+  .letter .greeting {
+    font-size: 16px; color: #5a5348; margin-bottom: 16px;
+  }
+  .letter .body {
+    font-size: 16px; color: #3d382e; line-height: 1.7;
+    margin-bottom: 16px;
+  }
+  .letter .body strong { color: #0f172a; }
+  .letter .accent-text { color: #c1272d; font-weight: 700; }
+
+  .letter .usp-list {
+    list-style: none; padding: 0; margin: 24px 0;
+  }
+  .letter .usp-list li {
+    padding: 10px 0;
+    border-bottom: 1px solid #f0e8da;
+    font-size: 15px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .letter .usp-list li::before {
+    content: '▸'; color: #c1272d; font-weight: 900;
+  }
+
+  .signature-area {
+    margin-top: 40px;
+    border-top: 1px solid #e0d6c8;
+    padding-top: 28px;
+  }
+  .signature-area .name {
+    font-weight: 700; font-size: 16px; color: #0f172a;
+  }
+  .signature-area .role {
+    font-size: 13px; color: #5a5348;
+  }
+  .signature-area .contact {
+    font-size: 13px; color: #8a7d6b; margin-top: 4px;
+  }
+  .btn-letter {
+    display: inline-block;
+    background: #c1272d; color: #fff; border: none;
+    padding: 14px 32px; font-size: 15px; font-weight: 700;
+    border-radius: 6px; cursor: pointer; font-family: inherit;
+    margin-top: 20px; text-decoration: none;
+    transition: transform 0.2s;
+  }
+  .btn-letter:hover { transform: translateY(-1px); }
+
+  /* ========== SERVICES SECTION ========== */
+  .services-panel {
+    max-width: 700px; margin: 0 auto 48px;
+    background: #fff; border-radius: 4px;
+    padding: 40px 56px;
+    border: 1px solid #e8e0d0;
+  }
+  .services-panel h2 {
+    font-size: 20px; font-weight: 900; color: #0f172a;
+    margin-bottom: 24px;
+  }
+  .service-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #f0e8da;
+  }
+  .service-item:last-child { border-bottom: none; }
+  .service-item .title {
+    font-weight: 600; font-size: 14px; color: #2d2a24;
+  }
+  .service-item .price {
+    font-weight: 700; font-size: 14px; color: #c1272d;
+  }
+  .service-item .free {
+    color: #0f172a; font-weight: 900;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    color: #8a7d6b; font-size: 13px;
+    border-top: 1px solid #e0d6c8;
+  }
+
+  /* ========== MODAL ========== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.5); z-index: 100;
+    justify-content: center; align-items: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: #fff; border-radius: 8px; padding: 36px;
+    max-width: 440px; width: 90%; position: relative;
+  }
+  .modal h3 { font-size: 20px; font-weight: 900; margin-bottom: 8px; color: #0f172a; }
+  .modal p { color: #5a5348; margin-bottom: 20px; font-size: 14px; }
+  .modal-close {
+    position: absolute; top: 12px; right: 16px;
+    background: none; border: none; font-size: 22px; cursor: pointer;
+    color: #8a7d6b; font-family: inherit;
+  }
+  .modal input, .modal textarea {
+    width: 100%; padding: 12px 14px; margin-bottom: 10px;
+    border: 1px solid #d4c9b8; border-radius: 4px;
+    font-family: inherit; font-size: 14px; background: #faf6ee;
+  }
+  .modal textarea { resize: vertical; min-height: 70px; }
+  .modal .btn-letter { width: 100%; text-align: center; margin-top: 4px; }
+
+  @media (max-width: 600px) {
+    .letter { padding: 32px 24px; }
+    .services-panel { padding: 24px; }
+    .letter h1 { font-size: 26px; }
+    .header-inner { flex-direction: column; gap: 12px; }
+    .service-item { flex-direction: column; align-items: flex-start; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <span style="font-size:26px;">🧭</span>
+      <span class="logo-text">KI-KOMPASS <span>BREMEN</span></span>
+    </a>
+    <nav>
+      <a href="#services">Leistungen</a>
+      <a href="#" onclick="openModal(); return false;" class="cta">Quick-Check anfordern</a>
+    </nav>
+  </div>
+</header>
+
+<!-- LETTER SECTION -->
+<div class="container">
+  <div class="letter">
+    <p class="from-line">KI-KOMPASS BREMEN · Torre Ehlers · Bremen</p>
+
+    <h1>KI für Ihr Handwerk –<br>ehrlich, praktisch, <span style="color:#c1272d;">kostenlos</span>.</h1>
+
+    <p class="greeting">Hallo, ich bin Torre.</p>
+
+    <p class="body">
+      40 Jahre habe ich hinter der Bühne gearbeitet – gelernt, unter Druck
+      klare Entscheidungen zu treffen und komplexe Abläufe zu managen.
+      Jetzt bringe ich diese Erfahrung in die Welt der Künstlichen Intelligenz.
+    </p>
+
+    <p class="body">
+      <strong>Was ich Ihnen anbiete?</strong> Keine 08/15-Vorträge. Kein
+      Buzzword-Bingo. Ich komme in Ihren Betrieb, schaue mir an, wo Ihre
+      tägliche Arbeit klemmt – und zeige Ihnen <span class="accent-text">genau</span>,
+      wo KI wirklich hilft.
+    </p>
+
+    <ul class="usp-list">
+      <li><strong>30 Minuten</strong> – mehr braucht mein Quick-Check nicht</li>
+      <li><strong>Kostenlos & unverbindlich</strong> – kein Haken, kein Verkaufsgespräch</li>
+      <li><strong>Vor Ort in Bremen</strong> – ich komme zu Ihnen in die Werkstatt</li>
+      <li><strong>Live-Demo</strong> – Sie sehen direkt, was möglich ist</li>
+    </ul>
+
+    <p class="body">
+      Klingt gut? Dann fordern Sie jetzt Ihren persönlichen Termin an.
+      Ich melde mich innerhalb von 24 Stunden bei Ihnen.
+    </p>
+
+    <div class="signature-area">
+      <p class="name">Torre Ehlers</p>
+      <p class="role">KI-Kompass Bremen</p>
+      <p class="contact">torreehlers@gmx.de · +49 1575 6618899</p>
+      <button class="btn-letter" onclick="openModal()">🎯 Quick-Check anfordern →</button>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <div class="services-panel" id="services">
+    <h2>Meine Leistungen im Überblick</h2>
+    <div class="service-item">
+      <span class="title">🔍 KI-Quick-Check (30 Min.)</span>
+      <span class="price free">KOSTENLOS</span>
+    </div>
+    <div class="service-item">
+      <span class="title">👨‍🏫 Schnupper-Workshop (2h)</span>
+      <span class="price">ab 150 €</span>
+    </div>
+    <div class="service-item">
+      <span class="title">⚙️ KI-Praxis-Workshop (4h)</span>
+      <span class="price">ab 400 €</span>
+    </div>
+    <div class="service-item">
+      <span class="title">📋 Prozess-Check</span>
+      <span class="price">500–800 €</span>
+    </div>
+    <div class="service-item">
+      <span class="title">🛠️ Tool-Einführung & Setup</span>
+      <span class="price">ab 300 €</span>
+    </div>
+    <div class="service-item">
+      <span class="title">📈 KI-Strategie-Tag</span>
+      <span class="price">1.200–1.800 €</span>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <strong>KI-Kompass Bremen</strong> · Torre Ehlers · Bremen · torreehlers@gmx.de · +49 1575 6618899
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>🎯 Quick-Check anfordern</h3>
+    <p>Kostenlos, 30 Minuten. Ich melde mich innerhalb von 24h.</p>
+    <input type="text" placeholder="Vorname & Nachname">
+    <input type="text" placeholder="Betrieb">
+    <input type="tel" placeholder="Telefon">
+    <input type="email" placeholder="E-Mail">
+    <button class="btn-letter" onclick="this.textContent='✓ Anfrage gesendet!'; setTimeout(closeModal,1500)">Kostenlosen Termin sichern</button>
+  </div>
+</div>
+
+<script>
+  function openModal() { document.getElementById('modal').classList.add('active'); }
+  function closeModal() { document.getElementById('modal').classList.remove('active'); }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+</body>
+</html>

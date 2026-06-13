@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KI-Kompass Bremen – Werkbank</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #f5f0e8;
+    color: #2d2a24;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* ========== HEADER ========== */
+  header {
+    background: #0f172a;
+    border-bottom: 4px solid #c1272d;
+    padding: 20px 0;
+  }
+  .header-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 48px; height: 48px;
+    background: #c1272d;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 18px; color: #f5f0e8;
+    border: 3px solid #f5f0e8;
+  }
+  .logo-text {
+    font-weight: 900; font-size: 22px; color: #f5f0e8;
+    letter-spacing: -0.5px;
+  }
+  .logo-text span { color: #c1272d; }
+
+  nav a {
+    color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 600;
+    margin-left: 24px; transition: color 0.2s;
+  }
+  nav a:hover { color: #f5f0e8; }
+  nav a.cta {
+    background: #c1272d; color: #f5f0e8; padding: 8px 20px;
+    border-radius: 6px; font-size: 13px;
+  }
+  nav a.cta:hover { background: #a31e22; }
+
+  /* ========== HERO ========== */
+  .hero {
+    padding: 80px 0 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(193,39,45,0.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: #0f172a; color: #f5f0e8;
+    font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 2px; padding: 6px 14px; border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 52px; font-weight: 900; line-height: 1.1;
+    color: #0f172a; letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: #c1272d; }
+  .hero p {
+    font-size: 18px; color: #5a5348; line-height: 1.6;
+    margin-bottom: 32px; max-width: 480px;
+  }
+  .hero-cta {
+    display: flex; gap: 16px; align-items: center;
+  }
+  .btn-primary {
+    background: #c1272d; color: #f5f0e8; border: none;
+    padding: 16px 36px; font-size: 16px; font-weight: 700;
+    border-radius: 8px; cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(193,39,45,0.3);
+  }
+  .btn-secondary {
+    background: #0f172a; color: #f5f0e8; border: none;
+    padding: 16px 36px; font-size: 16px; font-weight: 600;
+    border-radius: 8px; cursor: pointer;
+    transition: transform 0.2s;
+    font-family: inherit;
+  }
+  .btn-secondary:hover { transform: translateY(-2px); }
+
+  .hero-visual {
+    display: flex; justify-content: center;
+    position: relative;
+  }
+  .compass-badge {
+    width: 220px; height: 220px;
+    background: #0f172a; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    border: 6px solid #c1272d;
+    position: relative;
+  }
+  .compass-badge::after {
+    content: '✦ ✦ ✦ ✦';
+    position: absolute; bottom: -18px;
+    color: #d4a017; font-size: 14px; letter-spacing: 8px;
+  }
+  .compass-badge svg { width: 180px; height: 180px; }
+
+  /* ========== SERVICES ========== */
+  .section { padding: 80px 0; }
+  .section-dark { background: #0f172a; color: #e2e8f0; }
+  .section-title {
+    font-size: 32px; font-weight: 900; margin-bottom: 12px;
+    color: #0f172a;
+  }
+  .section-dark .section-title { color: #f5f0e8; }
+  .section-title span { color: #c1272d; }
+  .section-sub {
+    font-size: 16px; color: #5a5348; max-width: 600px; margin-bottom: 48px;
+  }
+  .section-dark .section-sub { color: #94a3b8; }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .service-card {
+    background: #fff; border-radius: 12px; padding: 32px;
+    border: 1px solid #e0d6c8;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+  }
+  .service-number {
+    font-size: 32px; font-weight: 900; color: #c1272d;
+    margin-bottom: 8px;
+  }
+  .service-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+  .service-card p { font-size: 14px; color: #5a5348; line-height: 1.6; }
+  .service-price {
+    display: inline-block;
+    background: #f5f0e8; color: #0f172a;
+    font-size: 12px; font-weight: 700; padding: 4px 12px;
+    border-radius: 20px; margin-top: 12px;
+  }
+
+  /* ========== QUICK-CHECK SECTION ========== */
+  .quickcheck {
+    background: linear-gradient(135deg, #c1272d 0%, #a31e22 100%);
+    color: #f5f0e8;
+    text-align: center; padding: 80px 24px;
+  }
+  .quickcheck h2 {
+    font-size: 40px; font-weight: 900; margin-bottom: 16px;
+  }
+  .quickcheck p {
+    font-size: 18px; max-width: 600px; margin: 0 auto 32px;
+    opacity: 0.9; line-height: 1.6;
+  }
+  .quickcheck-steps {
+    display: flex; justify-content: center; gap: 16px; margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  .quickcheck-step {
+    background: rgba(255,255,255,0.1);
+    padding: 16px 24px; border-radius: 10px;
+    font-weight: 600; font-size: 14px;
+    border: 1px solid rgba(255,255,255,0.2);
+    min-width: 140px;
+  }
+  .quickcheck-step strong { display: block; font-size: 20px; margin-bottom: 4px; }
+  .btn-white {
+    background: #f5f0e8; color: #c1272d; border: none;
+    padding: 18px 48px; font-size: 18px; font-weight: 700;
+    border-radius: 8px; cursor: pointer; font-family: inherit;
+    transition: transform 0.2s;
+  }
+  .btn-white:hover { transform: translateY(-2px); }
+
+  /* ========== TRUST ========== */
+  .trust-text {
+    font-size: 14px; color: #94a3b8; margin-top: 40px;
+    max-width: 500px; margin-left: auto; margin-right: auto;
+  }
+
+  /* ========== FOOTER ========== */
+  footer {
+    background: #0f172a; padding: 48px 24px;
+    color: #64748b; font-size: 14px;
+  }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+  }
+  footer strong { color: #94a3b8; }
+
+  /* ========== MODAL ========== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.6); z-index: 100;
+    justify-content: center; align-items: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: #f5f0e8; border-radius: 16px; padding: 40px;
+    max-width: 480px; width: 90%; position: relative;
+  }
+  .modal h3 { font-size: 24px; font-weight: 900; margin-bottom: 8px; color: #0f172a; }
+  .modal p { color: #5a5348; margin-bottom: 20px; }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: none; font-size: 24px; cursor: pointer;
+    color: #5a5348; font-family: inherit;
+  }
+  .modal input, .modal textarea {
+    width: 100%; padding: 12px 16px; margin-bottom: 12px;
+    border: 1px solid #d4c9b8; border-radius: 6px;
+    font-family: inherit; font-size: 14px; background: #fff;
+  }
+  .modal textarea { resize: vertical; min-height: 80px; }
+  .modal .btn-primary { width: 100%; margin-top: 8px; }
+
+  @media (max-width: 768px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero h1 { font-size: 36px; }
+    .services-grid { grid-template-columns: 1fr; }
+    .header-inner { flex-direction: column; gap: 16px; }
+    nav a { margin: 0 10px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">🧭</div>
+      <div class="logo-text">KI-KOMPASS <span>BREMEN</span></div>
+    </a>
+    <nav>
+      <a href="#">Leistungen</a>
+      <a href="#">Über mich</a>
+      <a href="#">Kontakt</a>
+      <a href="#" class="cta" onclick="openModal(); return false;">Quick-Check</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">✦ Seit 2026 in Bremen</div>
+        <h1>KI, die <span>Handwerk</span> versteht</h1>
+        <p>
+          Kein Fachchinesisch. Keine leeren Versprechen. Ich zeige Ihnen
+          in 30 Minuten, wo Künstliche Intelligenz in Ihrem Betrieb
+          wirklich hilft.
+        </p>
+        <div class="hero-cta">
+          <button class="btn-primary" onclick="openModal()">🎯 Kostenlosen Quick-Check anfordern</button>
+          <button class="btn-secondary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Mehr erfahren</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="compass-badge">
+          <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="120" cy="120" r="105" fill="none" stroke="#334155" stroke-width="3"/>
+            <text x="120" y="38" text-anchor="middle" font-family="Inter, sans-serif" font-size="20" font-weight="900" fill="#c1272d">N</text>
+            <polygon points="120,95 145,120 120,145 95,120" fill="#c1272d" opacity="0.9"/>
+            <polygon points="120,95 145,120 120,115" fill="#d4a017" opacity="0.7"/>
+            <circle cx="120" cy="120" r="55" fill="none" stroke="#334155" stroke-width="1.5" stroke-dasharray="4,4"/>
+            <circle cx="120" cy="120" r="6" fill="#d4a017"/>
+            <text x="120" y="125" text-anchor="middle" font-family="Inter, sans-serif" font-size="36" font-weight="900" fill="#f5f0e8">KI</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <h2 class="section-title">Meine <span>Leistungen</span></h2>
+    <p class="section-sub">Vom kostenlosen Einstieg bis zur vollen KI-Integration – alles auf Ihre Bedürfnisse zugeschnitten.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-number">01</div>
+        <h3>🔍 KI-Quick-Check</h3>
+        <p>30 Minuten, kostenlos, unverbindlich. Ich analysiere Ihre Abläufe und zeige Ihnen live, wo KI hilft.</p>
+        <div class="service-price">Kostenlos</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">02</div>
+        <h3>👨‍🏫 Schnupper-Workshop</h3>
+        <p>2 Stunden praktische Einführung: ChatGPT, Bild-KI, Automatisierung – direkt an Ihren Beispielen.</p>
+        <div class="service-price">ab 150 €</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">03</div>
+        <h3>⚙️ KI-Workshop "Praxis"</h3>
+        <p>4 Stunden: Gemeinsam bauen wir echte Lösungen – von Angebotsvorlagen bis Social Media.</p>
+        <div class="service-price">ab 400 €</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">04</div>
+        <h3>📋 Prozess-Check</h3>
+        <p>Ich analysiere 1–2 Ihrer Geschäftsprozesse und zeige konkrete KI-Potenziale auf.</p>
+        <div class="service-price">500–800 €</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">05</div>
+        <h3>🛠️ Tool-Einführung</h3>
+        <p>Einrichtung von ChatGPT, Zapier/Make, KI-CRM – ich mache es für Sie bereit.</p>
+        <div class="service-price">ab 300 €</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">06</div>
+        <h3>📈 KI-Strategie-Tag</h3>
+        <p>Kompletter Tag: Analyse → Roadmap → Maßnahmen für die nächsten 6 Monate.</p>
+        <div class="service-price">1.200–1.800 €</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK-CHECK BANNER -->
+<section class="quickcheck">
+  <h2>Kostenloser KI-Quick-Check</h2>
+  <p>30 Minuten. Vor Ort oder per Video. Keine Verpflichtung – nur echte Einblicke, was KI für Sie tun kann.</p>
+  <div class="quickcheck-steps">
+    <div class="quickcheck-step"><strong>5 Min.</strong> Kennenlernen</div>
+    <div class="quickcheck-step"><strong>15 Min.</strong> Prozess-Check</div>
+    <div class="quickcheck-step"><strong>8 Min.</strong> Live-Demo</div>
+    <div class="quickcheck-step"><strong>2 Min.</strong> Fahrplan</div>
+  </div>
+  <button class="btn-white" onclick="openModal()">🎯 Jetzt kostenlosen Termin sichern</button>
+  <p class="trust-text">Kein Verkaufsdruck. Keine versteckten Kosten. Nur handfeste KI-Tipps für Ihren Betrieb.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <strong>KI-Kompass Bremen</strong><br>
+      Torre Ehlers<br>
+      Bremen
+    </div>
+    <div>
+      <strong>Kontakt</strong><br>
+      torreehlers@gmx.de<br>
+      +49 1575 6618899
+    </div>
+    <div>
+      <strong>Leistungen</strong><br>
+      Quick-Check · Workshop · Strategie
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>🎯 KI-Quick-Check anfordern</h3>
+    <p>Kostenlos. 30 Minuten. Ich melde mich innerhalb von 24 Stunden bei Ihnen.</p>
+    <input type="text" placeholder="Ihr Name" id="mname">
+    <input type="text" placeholder="Ihr Betrieb">
+    <input type="tel" placeholder="Telefon (optional)">
+    <input type="email" placeholder="E-Mail">
+    <textarea placeholder="Was beschäftigt Sie? (optional)"></textarea>
+    <button class="btn-primary" onclick="this.textContent='👍 Anfrage gesendet!'; setTimeout(closeModal,1500)">Kostenlosen Termin anfordern</button>
+  </div>
+</div>
+
+<script>
+  function openModal() { document.getElementById('modal').classList.add('active'); }
+  function closeModal() { document.getElementById('modal').classList.remove('active'); }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+</body>
+</html>

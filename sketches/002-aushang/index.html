@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KI-Kompass Bremen – Aushang</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ========== TOP SIGN ========== */
+  .top-sign {
+    background: #0f172a;
+    border-bottom: 4px solid #d4a017;
+    text-align: center;
+    padding: 16px 16px 12px;
+  }
+  .top-sign p {
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: #d4a017; font-weight: 700;
+  }
+
+  /* ========== HERO / SIGNBOARD ========== */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    background: #0f172a;
+    position: relative;
+    padding: 40px 20px 0;
+  }
+  .hero::before {
+    content: '✦';
+    position: absolute; top: 60px; left: 50%; transform: translateX(-50%);
+    font-size: 24px; color: #d4a017; opacity: 0.3;
+  }
+
+  .signboard {
+    max-width: 780px; margin: 0 auto;
+    background: #1a1a2e;
+    border: 6px solid #d4a017;
+    border-radius: 4px;
+    padding: 60px 48px 48px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 0 60px rgba(212,160,23,0.08);
+  }
+  .signboard::before {
+    content: '☽ ● ☾';
+    position: absolute; top: -32px; left: 50%; transform: translateX(-50%);
+    font-size: 18px; color: #d4a017; letter-spacing: 12px;
+  }
+
+  .signboard .star-row {
+    color: #d4a017; font-size: 12px; letter-spacing: 6px;
+    margin-bottom: 8px;
+  }
+
+  .signboard h1 {
+    font-size: 64px; font-weight: 900; letter-spacing: -2px;
+    line-height: 1;
+    color: #f5f0e8;
+    margin-bottom: 4px;
+  }
+  .signboard h1 .accent { color: #c1272d; }
+  .signboard .divider {
+    width: 120px; height: 3px; background: #c1272d;
+    margin: 20px auto;
+  }
+  .signboard .claim {
+    font-size: 18px; color: #94a3b8; font-weight: 700;
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .signboard .sub {
+    font-size: 16px; color: #64748b; max-width: 500px;
+    margin: 0 auto 32px; line-height: 1.7;
+  }
+
+  /* Leistungen als Liste (wie Aushang) */
+  .service-list {
+    list-style: none; padding: 0; margin: 0 auto 40px;
+    max-width: 440px; text-align: left;
+  }
+  .service-list li {
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(212,160,23,0.15);
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 15px;
+  }
+  .service-list li:last-child { border-bottom: none; }
+  .service-list .price {
+    color: #d4a017; font-weight: 700; font-size: 14px;
+  }
+  .service-list .free {
+    color: #c1272d; font-weight: 900;
+  }
+
+  .signboard .cta-group { margin-top: 8px; }
+
+  .btn-gold {
+    background: #d4a017; color: #0f172a; border: none;
+    padding: 18px 48px; font-size: 18px; font-weight: 900;
+    cursor: pointer; font-family: inherit; letter-spacing: 1px;
+    text-transform: uppercase;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(212,160,23,0.3);
+  }
+
+  /* ========== ABOUT SECTION ========== */
+  .about {
+    max-width: 780px; margin: 60px auto; padding: 0 20px;
+  }
+  .about-card {
+    background: #1a1a2e;
+    border: 1px solid #2d2a44;
+    border-radius: 4px; padding: 40px;
+    text-align: center;
+  }
+  .about-card h2 {
+    font-size: 20px; color: #d4a017; font-weight: 900;
+    text-transform: uppercase; letter-spacing: 3px;
+    margin-bottom: 16px;
+  }
+  .about-card p {
+    color: #94a3b8; font-size: 15px; line-height: 1.7;
+    max-width: 550px; margin: 0 auto;
+  }
+
+  /* ========== FOOTER ========== */
+  .footer-sign {
+    max-width: 780px; margin: 40px auto 60px; padding: 0 20px;
+    text-align: center;
+    border-top: 1px solid #2d2a44; padding-top: 32px;
+  }
+  .footer-sign p { color: #475569; font-size: 13px; margin-bottom: 4px; }
+  .footer-sign strong { color: #64748b; }
+
+  /* ========== MODAL ========== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.8); z-index: 100;
+    justify-content: center; align-items: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: #1a1a2e; border: 2px solid #d4a017;
+    border-radius: 4px; padding: 40px;
+    max-width: 480px; width: 90%; position: relative;
+  }
+  .modal h3 {
+    font-size: 22px; font-weight: 900; color: #f5f0e8;
+    margin-bottom: 8px; text-transform: uppercase; letter-spacing: 1px;
+  }
+  .modal p { color: #94a3b8; margin-bottom: 20px; font-size: 14px; }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: none; font-size: 24px; cursor: pointer;
+    color: #64748b; font-family: inherit;
+  }
+  .modal input, .modal textarea {
+    width: 100%; padding: 12px 16px; margin-bottom: 12px;
+    border: 1px solid #2d2a44; border-radius: 4px;
+    font-family: inherit; font-size: 14px;
+    background: #0f172a; color: #e2e8f0;
+  }
+  .modal textarea { resize: vertical; min-height: 80px; }
+  .modal .btn-gold { width: 100%; font-size: 15px; padding: 14px; }
+
+  @media (max-width: 600px) {
+    .signboard { padding: 40px 24px 32px; }
+    .signboard h1 { font-size: 36px; }
+    .signboard .claim { font-size: 13px; }
+    .service-list li { font-size: 13px; flex-direction: column; align-items: flex-start; gap: 4px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-sign">
+  <p>✦ KI-Kompass Bremen – Gegründet 2026 ✦</p>
+</div>
+
+<!-- HERO / SIGNBOARD -->
+<section class="hero">
+  <div class="signboard">
+    <div class="star-row">✧ ✧ ✧ ✧ ✧</div>
+    <h1>KI<span class="accent">-</span>KOMPASS</h1>
+    <h1 class="accent">BREMEN</h1>
+    <div class="divider"></div>
+    <p class="claim">🧭 AI Consulting für Handwerk & KMU</p>
+    <p class="sub">
+      Kein Labern. Keine Buzzwords. Ich zeige Ihnen in 30 Minuten,<br>
+      was KI in Ihrem Betrieb wirklich bringt.
+    </p>
+
+    <ul class="service-list">
+      <li><span>🔍 KI-Quick-Check (30 Min.)</span> <span class="free">KOSTENLOS</span></li>
+      <li><span>👨‍🏫 Schnupper-Workshop (2h)</span> <span class="price">ab 150 €</span></li>
+      <li><span>⚙️ KI-Praxis-Workshop (4h)</span> <span class="price">ab 400 €</span></li>
+      <li><span>📋 Prozess-Check</span> <span class="price">500–800 €</span></li>
+      <li><span>🛠️ Tool-Einführung & Setup</span> <span class="price">ab 300 €</span></li>
+      <li><span>📈 KI-Strategie-Tag</span> <span class="price">1.200–1.800 €</span></li>
+    </ul>
+
+    <div class="cta-group">
+      <button class="btn-gold" onclick="openModal()">🎯 Quick-Check anfordern</button>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="about">
+    <div class="about-card">
+      <h2>Über den Kompass</h2>
+      <p>
+        <strong style="color:#f5f0e8;">Torre Ehlers</strong> – 40+ Jahre Bühnenerfahrung, KI-Umschulung mit Note 1.
+        Ich bringe KI dorthin, wo sie wirklich gebraucht wird: in die Werkstatt,
+        auf den Bau, in den Laden. Kein IT-Fachchinesisch – nur echte Hilfe.
+      </p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer-sign">
+    <p><strong>KI-Kompass Bremen</strong> – Torre Ehlers</p>
+    <p>torreehlers@gmx.de · +49 1575 6618899 · Bremen</p>
+  </div>
+</section>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>🎯 Quick-Check</h3>
+    <p>30 Min. Kostenlos. Ich ruf Sie innerhalb von 24 Stunden zurück.</p>
+    <input type="text" placeholder="Ihr Name" id="mname2">
+    <input type="text" placeholder="Betrieb / Firma">
+    <input type="tel" placeholder="Telefon">
+    <input type="email" placeholder="E-Mail">
+    <button class="btn-gold" onclick="this.textContent='✓ Anfrage gesendet!'; setTimeout(closeModal,1500)">Absenden</button>
+  </div>
+</div>
+
+<script>
+  function openModal() { document.getElementById('modal').classList.add('active'); }
+  function closeModal() { document.getElementById('modal').classList.remove('active'); }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+</body>
+</html>

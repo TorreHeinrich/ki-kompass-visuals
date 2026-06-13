@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KI-Kompass Bremen – Offiziell</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+  /* ========== HEADER ========== */
+  header {
+    background: #0f172a;
+    border-bottom: 3px solid #d4a017;
+    padding: 18px 0;
+  }
+  .header-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none;
+  }
+  .logo-icon {
+    width: 44px; height: 44px;
+    background: #c1272d;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 18px; color: #f5f0e8;
+    border: 2px solid #d4a017;
+  }
+  .logo-text {
+    font-weight: 900; font-size: 20px; color: #f5f0e8;
+    letter-spacing: -0.5px;
+  }
+  .logo-text span { color: #c1272d; }
+
+  nav a {
+    color: #64748b; text-decoration: none; font-size: 13px; font-weight: 600;
+    margin-left: 24px; transition: color 0.2s;
+  }
+  nav a:hover { color: #d4a017; }
+  nav a.cta {
+    background: #c1272d; color: #f5f0e8; padding: 8px 18px;
+    font-size: 13px; letter-spacing: 0.5px;
+  }
+  nav a.cta:hover { background: #a31e22; }
+
+  /* ========== HERO ========== */
+  .hero {
+    padding: 80px 0 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '✦';
+    position: absolute; top: 40px; right: 60px;
+    font-size: 40px; color: #d4a017; opacity: 0.15;
+  }
+  .hero::after {
+    content: '✦';
+    position: absolute; bottom: 20px; left: 40px;
+    font-size: 28px; color: #d4a017; opacity: 0.1;
+  }
+  .hero-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+  }
+  .hero-badge {
+    display: inline-block;
+    background: transparent;
+    color: #d4a017; font-size: 11px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 3px; padding: 6px 14px;
+    border: 1px solid rgba(212,160,23,0.3);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-size: 52px; font-weight: 900; line-height: 1.1;
+    color: #f5f0e8; letter-spacing: -1px;
+    margin-bottom: 16px;
+  }
+  .hero h1 span { color: #c1272d; }
+  .hero p {
+    font-size: 17px; color: #94a3b8; line-height: 1.6;
+    margin-bottom: 32px; max-width: 480px;
+  }
+  .hero-cta {
+    display: flex; gap: 16px; align-items: center;
+  }
+  .btn-primary {
+    background: #c1272d; color: #f5f0e8; border: none;
+    padding: 16px 36px; font-size: 15px; font-weight: 700;
+    cursor: pointer; font-family: inherit;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(193,39,45,0.3);
+  }
+  .btn-secondary {
+    background: transparent; color: #94a3b8; border: 1px solid #334155;
+    padding: 15px 36px; font-size: 15px; font-weight: 600;
+    cursor: pointer; font-family: inherit;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { border-color: #d4a017; color: #d4a017; }
+
+  .hero-visual {
+    display: flex; justify-content: center;
+  }
+  .compass-badge {
+    width: 240px; height: 240px;
+    position: relative;
+  }
+  .compass-badge svg { width: 240px; height: 240px; }
+
+  /* ========== SERVICES ========== */
+  .section { padding: 80px 0; }
+  .section-title {
+    font-size: 30px; font-weight: 900; margin-bottom: 12px;
+    color: #f5f0e8;
+  }
+  .section-title span { color: #c1272d; }
+  .section-sub {
+    font-size: 15px; color: #64748b; max-width: 600px; margin-bottom: 48px;
+  }
+
+  .services-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px;
+  }
+  .service-card {
+    background: #1a1a2e;
+    padding: 24px 20px;
+    border: 1px solid #2d2a44;
+    transition: transform 0.2s, border-color 0.2s;
+    display: flex; flex-direction: column;
+  }
+  .service-card:hover {
+    transform: translateY(-4px);
+    border-color: #d4a017;
+  }
+  .service-card .spacer { flex: 1; }
+  .service-number {
+    font-size: 24px; font-weight: 900; color: #d4a017;
+    margin-bottom: 6px;
+  }
+  .service-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #f5f0e8; }
+  .service-card p { font-size: 12px; color: #64748b; line-height: 1.6; }
+  .service-card .tags {
+    margin-top: 8px; display: flex; gap: 4px; flex-wrap: wrap;
+  }
+  .service-card .tags span {
+    font-size: 9px; background: rgba(212,160,23,0.1);
+    color: #d4a017; border: 1px solid rgba(212,160,23,0.2);
+    padding: 2px 8px; font-weight: 600;
+  }
+  .service-price {
+    display: inline-block;
+    background: rgba(212,160,23,0.1); color: #d4a017;
+    border: 1px solid rgba(212,160,23,0.2);
+    font-size: 11px; font-weight: 700; padding: 4px 12px;
+    margin-top: 12px;
+    align-self: flex-start;
+  }
+  .service-price.free { color: #c1272d; border-color: rgba(193,39,45,0.3); background: rgba(193,39,45,0.1); }
+  .service-price.eu { color: #f5f0e8; border-color: #d4a017; background: #d4a017; }
+
+  /* ========== QUICK-CHECK SECTION ========== */
+  .quickcheck {
+    background: #1a1a2e;
+    border-top: 3px solid #d4a017;
+    border-bottom: 3px solid #d4a017;
+    text-align: center; padding: 80px 24px;
+  }
+  .quickcheck h2 {
+    font-size: 36px; font-weight: 900; margin-bottom: 12px;
+    color: #f5f0e8;
+  }
+  .quickcheck h2 span { color: #c1272d; }
+  .quickcheck p {
+    font-size: 16px; max-width: 600px; margin: 0 auto 32px;
+    color: #94a3b8; line-height: 1.6;
+  }
+  .quickcheck-steps {
+    display: flex; justify-content: center; gap: 12px; margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .quickcheck-step {
+    background: rgba(212,160,23,0.08);
+    padding: 14px 22px; font-weight: 600; font-size: 13px;
+    border: 1px solid rgba(212,160,23,0.2);
+    min-width: 130px; color: #94a3b8;
+  }
+  .quickcheck-step strong { display: block; font-size: 20px; color: #d4a017; margin-bottom: 2px; }
+  .btn-gold {
+    background: #d4a017; color: #0f172a; border: none;
+    padding: 18px 48px; font-size: 17px; font-weight: 900;
+    cursor: pointer; font-family: inherit; letter-spacing: 0.5px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(212,160,23,0.3);
+  }
+  .trust-text {
+    font-size: 13px; color: #475569; margin-top: 36px;
+    max-width: 500px; margin-left: auto; margin-right: auto;
+  }
+
+  /* ========== ABOUT ========== */
+  .about-section {
+    padding: 60px 24px;
+    text-align: center;
+  }
+  .about-section h2 {
+    font-size: 18px; color: #d4a017; font-weight: 900;
+    text-transform: uppercase; letter-spacing: 3px;
+    margin-bottom: 16px;
+  }
+  .about-section p {
+    color: #64748b; font-size: 15px; line-height: 1.7;
+    max-width: 600px; margin: 0 auto;
+  }
+  .about-section strong { color: #94a3b8; }
+
+  /* ========== FOOTER ========== */
+  footer {
+    padding: 40px 24px;
+    border-top: 1px solid #2d2a44;
+    color: #475569; font-size: 13px;
+  }
+  .footer-inner {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+  }
+  footer strong { color: #64748b; }
+
+  /* ========== LEGAL (Impressum / Datenschutz) ========== */
+  .legal-section {
+    background: #0f172a;
+    border-top: 1px solid #2d2a44;
+    padding: 20px 0;
+  }
+  .legal-inner {
+    max-width: 1100px; margin: 0 auto; padding: 0 24px;
+  }
+  .legal-nav {
+    display: flex; gap: 24px; justify-content: center; margin-bottom: 16px;
+  }
+  .legal-nav a {
+    color: #64748b; text-decoration: none; font-size: 12px; font-weight: 600;
+    transition: color 0.2s; cursor: pointer;
+  }
+  .legal-nav a:hover { color: #d4a017; }
+
+  details.legal-box {
+    max-width: 700px; margin: 0 auto 12px;
+    background: #1a1a2e; border: 1px solid #2d2a44;
+    overflow: hidden;
+  }
+  details.legal-box[open] { border-color: #d4a017; }
+
+  details.legal-box summary {
+    padding: 14px 20px; cursor: pointer;
+    font-weight: 700; font-size: 13px; color: #94a3b8;
+    list-style: none; display: flex; justify-content: space-between; align-items: center;
+    user-select: none;
+  }
+  details.legal-box summary::-webkit-details-marker { display: none; }
+  details.legal-box summary::after {
+    content: '+'; font-size: 18px; color: #d4a017; font-weight: 900;
+    transition: transform 0.2s;
+  }
+  details.legal-box[open] summary::after {
+    content: '−';
+  }
+  details.legal-box summary:hover { color: #f5f0e8; }
+
+  details.legal-box .legal-content {
+    padding: 0 20px 20px;
+    font-size: 12px; color: #64748b; line-height: 1.7;
+  }
+  details.legal-box .legal-content strong { color: #94a3b8; }
+  details.legal-box .legal-content a { color: #d4a017; text-decoration: none; }
+  details.legal-box .legal-content a:hover { text-decoration: underline; }
+  details.legal-box .legal-content h4 {
+    color: #f5f0e8; font-size: 14px; margin: 16px 0 6px;
+  }
+  details.legal-box .legal-content p { margin-bottom: 8px; }
+
+  /* ========== MODAL ========== */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0;
+    background: rgba(0,0,0,0.7); z-index: 100;
+    justify-content: center; align-items: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: #1a1a2e; padding: 40px;
+    max-width: 480px; width: 90%; position: relative;
+    border: 2px solid #d4a017;
+  }
+  .modal h3 { font-size: 22px; font-weight: 900; margin-bottom: 6px; color: #f5f0e8; }
+  .modal p { color: #94a3b8; margin-bottom: 20px; font-size: 14px; }
+  .modal-close {
+    position: absolute; top: 14px; right: 16px;
+    background: none; border: none; font-size: 22px; cursor: pointer;
+    color: #64748b; font-family: inherit;
+  }
+  .modal input, .modal textarea {
+    width: 100%; padding: 12px 16px; margin-bottom: 12px;
+    border: 1px solid #2d2a44;
+    font-family: inherit; font-size: 14px;
+    background: #0f172a; color: #e2e8f0;
+  }
+  .modal textarea { resize: vertical; min-height: 70px; }
+  .modal .btn-gold { width: 100%; font-size: 15px; padding: 14px; margin-top: 4px; }
+
+  /* ========== TOP BAR ========== */
+  .top-bar {
+    background: #0f172a;
+    text-align: center; padding: 8px 16px;
+    border-bottom: 1px solid #2d2a44;
+  }
+  .top-bar p {
+    font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+    color: #d4a017; font-weight: 700;
+  }
+
+  @media (max-width: 768px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+    .hero h1 { font-size: 34px; }
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .header-inner { flex-direction: column; gap: 16px; }
+    nav a { margin: 0 10px; }
+    .quickcheck h2 { font-size: 26px; }
+  }
+  @media (max-width: 480px) {
+    .services-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <p>✦ KI-Kompass Bremen – Seit 2026 für Handwerk & KMU ✦</p>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon">🧭</div>
+      <div class="logo-text">KI-KOMPASS <span>BREMEN</span></div>
+    </a>
+    <nav>
+      <a href="#services">Leistungen</a>
+      <a href="#about">Über mich</a>
+      <a href="#" class="cta" onclick="openModal(); return false;">Quick-Check</a>
+    </nav>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">🧭 Orientierung für Ihren Betrieb</div>
+        <h1>KI, die <span>Handwerk</span> versteht</h1>
+        <p>
+          Kein Fachchinesisch. Keine leeren Versprechen. Ich zeige Ihnen
+          in 30 Minuten, wo Künstliche Intelligenz in Ihrem Betrieb
+          wirklich hilft – vor Ort in Bremen.
+        </p>
+        <div class="hero-cta">
+          <button class="btn-primary" onclick="openModal()">🎯 Kostenlosen Quick-Check anfordern</button>
+          <button class="btn-secondary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Mehr erfahren</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="compass-badge">
+                  <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Outer ring -->
+                    <circle cx="120" cy="120" r="105" fill="none" stroke="#d4a017" stroke-width="4"/>
+                    <circle cx="120" cy="120" r="98" fill="none" stroke="#2d2a44" stroke-width="1.5"/>
+            
+                    <!-- Degree marks -->
+                    <g stroke="#64748b" stroke-width="2.5">
+                      <line x1="120" y1="15" x2="120" y2="28"/>
+                      <line x1="120" y1="212" x2="120" y2="225"/>
+                      <line x1="15" y1="120" x2="28" y2="120"/>
+                      <line x1="212" y1="120" x2="225" y2="120"/>
+                    </g>
+            
+                    <!-- Star decorations at corners -->
+                    <polygon points="65,35 70,48 85,48 73,56 78,70 65,62 52,70 57,56 45,48 60,48" 
+                             fill="#c1272d" stroke="#1a1a1a" stroke-width="2"/>
+                    <polygon points="175,35 180,48 195,48 183,56 188,70 175,62 162,70 167,56 155,48 170,48" 
+                             fill="#c1272d" stroke="#1a1a1a" stroke-width="2"/>
+                    <polygon points="65,185 70,198 85,198 73,206 78,220 65,212 52,220 57,206 45,198 60,198" 
+                             fill="#c1272d" stroke="#1a1a1a" stroke-width="2"/>
+                    <polygon points="175,185 180,198 195,198 183,206 188,220 175,212 162,220 167,206 155,198 170,198" 
+                             fill="#c1272d" stroke="#1a1a1a" stroke-width="2"/>
+
+                    <!-- N / S / E / W - deutlich sichtbar -->
+                                        <text x="120" y="18" text-anchor="middle" font-family="Inter, sans-serif" font-size="28" font-weight="900" fill="#f5f0e8" stroke="#1a1a1a" stroke-width="1.5">N</text>
+                                        <text x="120" y="236" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="900" fill="#f5f0e8" stroke="#1a1a1a" stroke-width="1.5">S</text>
+                                        <text x="232" y="126" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="900" fill="#f5f0e8" stroke="#1a1a1a" stroke-width="1.5">E</text>
+                                        <text x="8" y="126" text-anchor="middle" font-family="Inter, sans-serif" font-size="24" font-weight="900" fill="#f5f0e8" stroke="#1a1a1a" stroke-width="1.5">W</text>
+
+                                        <!-- Main compass arms - ALL farbig -->
+                    <!-- North - rot -->
+                    <polygon points="120,40 152,120 120,108 88,120" fill="#c1272d" stroke="#1a1a1a" stroke-width="3.5" stroke-linejoin="round"/>
+                    <!-- South - gold -->
+                    <polygon points="120,200 152,120 120,132 88,120" fill="#d4a017" stroke="#1a1a1a" stroke-width="3.5" stroke-linejoin="round"/>
+                    <!-- East - rot mit gold-akzent -->
+                    <polygon points="200,120 120,100 120,120 120,140" fill="#c1272d" stroke="#1a1a1a" stroke-width="3.5" stroke-linejoin="round"/>
+                    <!-- West - gold -->
+                    <polygon points="40,120 120,100 120,120 120,140" fill="#d4a017" stroke="#1a1a1a" stroke-width="3.5" stroke-linejoin="round"/>
+
+                    <!-- Minor arms (diagonal) - kontrastfarben -->
+                    <polygon points="176,64 120,115 120,130" fill="#e85d3a" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
+                    <polygon points="64,64 120,115 120,130" fill="#e8c84a" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
+                    <polygon points="176,176 120,125 120,110" fill="#e85d3a" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
+                    <polygon points="64,176 120,125 120,110" fill="#e8c84a" stroke="#1a1a1a" stroke-width="2.5" stroke-linejoin="round"/>
+
+                    <!-- Center hub -->
+                    <circle cx="120" cy="120" r="30" fill="#0f172a" stroke="#d4a017" stroke-width="3.5"/>
+                    <circle cx="120" cy="120" r="22" fill="#c1272d" stroke="#1a1a1a" stroke-width="2.5"/>
+                    <text x="120" y="128" text-anchor="middle" font-family="Inter, sans-serif" font-size="22" font-weight="900" fill="#f5f0e8" stroke="#1a1a1a" stroke-width="1">KI</text>
+            
+                    <!-- Inner compass rings -->
+                    <circle cx="120" cy="120" r="60" fill="none" stroke="#2d2a44" stroke-width="1.5"/>
+                    <circle cx="120" cy="120" r="90" fill="none" stroke="#2d2a44" stroke-width="1" stroke-dasharray="3,4"/>
+                  </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section" id="services">
+  <div class="container">
+    <h2 class="section-title">Meine <span>Leistungen</span></h2>
+    <p class="section-sub">Vom kostenlosen Einstieg bis zur vollen KI-Integration – alles auf Ihre Bedürfnisse zugeschnitten.</p>
+    <div class="services-grid">
+      <div class="service-card">
+        <div class="service-number">01</div>
+        <h3>🔍 KI-Quick-Check</h3>
+        <p>30 Minuten, kostenlos, unverbindlich. Ich analysiere Ihre Abläufe und zeige Ihnen live, wo KI hilft.</p>
+        <div class="spacer"></div>
+        <div class="service-price free">Kostenlos</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">02</div>
+        <h3>👨‍🏫 Schnupper-Workshop</h3>
+        <p>2 Stunden praktische Einführung: ChatGPT, Bild-KI, Automatisierung – direkt an Ihren Beispielen.</p>
+        <div class="spacer"></div>
+        <div class="service-price">ab 225 €</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">03</div>
+        <h3>⚙️ KI-Workshop "Praxis"</h3>
+        <p>4 Stunden: Gemeinsam bauen wir echte Lösungen – von Angebotsvorlagen bis Social Media.</p>
+        <div class="spacer"></div>
+        <div class="service-price">ab 600 €</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">04</div>
+        <h3>📋 Prozess-Check</h3>
+        <p>Ich analysiere 1–2 Ihrer Geschäftsprozesse und zeige konkrete KI-Potenziale auf.</p>
+        <div class="spacer"></div>
+        <div class="service-price">750–1.200 €</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">05</div>
+        <h3>🛠️ Tool-Einführung</h3>
+        <p>Einrichtung von ChatGPT, Zapier/Make, KI-CRM – ich mache es für Sie bereit.</p>
+        <div class="spacer"></div>
+        <div class="service-price">ab 450 €</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">06</div>
+        <h3>📈 KI-Strategie-Tag</h3>
+        <p>Kompletter Tag: Analyse → Roadmap → Maßnahmen für die nächsten 6 Monate.</p>
+        <div class="spacer"></div>
+        <div class="service-price">1.800–2.700 €</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">07</div>
+        <h3>📜 EU AI Act Schulung</h3>
+        <p>6 Stunden Intensiv-Seminar: Alle Pflichten & Fristen des EU AI Act. Inkl. Zertifikat. Max. 12 Teilnehmer.</p>
+        <div class="tags"><span>6 Std.</span><span>Zertifikat</span><span>Max. 12 Pers.</span></div>
+        <div class="spacer"></div>
+        <div class="service-price eu">450 €/Person</div>
+      </div>
+      <div class="service-card">
+        <div class="service-number">08</div>
+        <h3>⚖️ EU AI Act Compliance</h3>
+        <p>Individuelle Prüfung Ihrer KI-Systeme auf EU AI Act-Konformität. Inkl. Handlungsempfehlungen.</p>
+        <div class="spacer"></div>
+        <div class="service-price">ab 950 €</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK-CHECK BANNER -->
+<section class="quickcheck">
+  <h2>Kostenloser <span>KI-Quick-Check</span></h2>
+  <p>30 Minuten. Vor Ort oder per Video. Keine Verpflichtung – nur echte Einblicke, was KI für Sie tun kann.</p>
+  <div class="quickcheck-steps">
+    <div class="quickcheck-step"><strong>5</strong> Kennenlernen</div>
+    <div class="quickcheck-step"><strong>15</strong> Prozess-Check</div>
+    <div class="quickcheck-step"><strong>8</strong> Live-Demo</div>
+    <div class="quickcheck-step"><strong>2</strong> Fahrplan</div>
+  </div>
+  <button class="btn-gold" onclick="openModal()">🎯 Jetzt kostenlosen Termin sichern</button>
+  <p class="trust-text">Kein Verkaufsdruck. Keine versteckten Kosten. Nur handfeste KI-Tipps für Ihren Betrieb.</p>
+</section>
+
+<!-- ABOUT -->
+<section class="about-section" id="about">
+  <div class="container">
+    <h2>Über den Kompass</h2>
+    <p>
+      <strong>Torre Ehlers</strong> – 40+ Jahre Erfahrung im Management komplexer Abläufe,
+      KI-Umschulung mit Note 1. Ich bringe KI dorthin, wo sie wirklich gebraucht wird:
+      in die Werkstatt, auf den Bau, in den Laden. Kein IT-Fachchinesisch – nur echte Hilfe.
+    </p>
+  </div>
+</section>
+
+<!-- LEGAL (Impressum & Datenschutz) -->
+<section class="legal-section" id="legal">
+  <div class="legal-inner">
+    <div class="legal-nav">
+      <a onclick="document.getElementById('impressum').open = !document.getElementById('impressum').open; document.getElementById('impressum').scrollIntoView({behavior:'smooth',block:'start'});">Impressum</a>
+      <a onclick="document.getElementById('datenschutz').open = !document.getElementById('datenschutz').open; document.getElementById('datenschutz').scrollIntoView({behavior:'smooth',block:'start'});">Datenschutz</a>
+    </div>
+
+    <details class="legal-box" id="impressum">
+      <summary>Impressum</summary>
+      <div class="legal-content">
+        <h4>Angaben gemäß § 5 TMG</h4>
+        <p>
+          <strong>KI-Kompass Bremen</strong><br>
+          Torre Ehlers<br>
+          Bremen<br>
+          Deutschland
+        </p>
+
+        <h4>Kontakt</h4>
+        <p>
+          E-Mail: torreehlers@gmx.de<br>
+          Telefon: +49 1575 6618899
+        </p>
+
+        <h4>Berufsbezeichnung</h4>
+        <p>
+          KI-Berater / AI Consultant (Qualifikation: KI-Umschulung WBS, Note 1, 98 %)<br>
+          Die Tätigkeit ist nicht zulassungspflichtig.
+        </p>
+
+        <h4>Umsatzsteuer</h4>
+        <p>
+          Kleinunternehmer gemäß § 19 UStG. Umsatzsteuer wird nicht ausgewiesen.
+        </p>
+
+        <h4>Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV</h4>
+        <p>Torre Ehlers, Anschrift siehe oben.</p>
+
+        <h4>Haftung für Inhalte</h4>
+        <p>
+          Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+        </p>
+        <p>
+          Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+        </p>
+      </div>
+    </details>
+
+    <details class="legal-box" id="datenschutz">
+      <summary>Datenschutzerklärung</summary>
+      <div class="legal-content">
+        <h4>1. Verantwortlicher</h4>
+        <p>
+          Verantwortlicher für die Datenverarbeitung auf dieser Website ist:<br>
+          Torre Ehlers, KI-Kompass Bremen, Kontakt: torreehlers@gmx.de
+        </p>
+
+        <h4>2. Erhebung und Speicherung personenbezogener Daten</h4>
+        <p>
+          Beim Besuch der Website werden automatisch Informationen an den Server gesendet (IP-Adresse, Datum/Uhrzeit, Browsertyp, Betriebssystem, Referrer-URL). Diese Daten sind technisch erforderlich, um die Website anzuzeigen. Eine Zusammenführung mit anderen Datenquellen wird nicht vorgenommen.
+        </p>
+        <p>
+          <strong>Kontaktformular:</strong> Wenn Sie das Quick-Check-Formular nutzen, erheben wir Name, Betrieb, Telefon und E-Mail. Diese Daten werden ausschließlich zur Bearbeitung Ihrer Anfrage genutzt und nicht an Dritte weitergegeben. Die Datenverarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO.
+        </p>
+
+        <h4>3. Datenspeicherung und -löschung</h4>
+        <p>
+          Ihre Kontaktformular-Daten werden nach Bearbeitung Ihrer Anfrage gelöscht, sofern keine gesetzlichen Aufbewahrungspflichten bestehen.
+        </p>
+
+        <h4>4. Ihre Rechte</h4>
+        <p>
+          Sie haben jederzeit das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit sowie Widerspruch gegen die Verarbeitung Ihrer personenbezogenen Daten. Bitte wenden Sie sich dazu an: torreehlers@gmx.de.
+        </p>
+        <p>
+          Sie haben zudem das Recht, sich bei der zuständigen Aufsichtsbehörde zu beschweren:
+        </p>
+        <p>
+          Die Landesbeauftragte für Datenschutz und Informationsfreiheit Bremen<br>
+          Arndtstraße 1, 27570 Bremerhaven<br>
+          https://www.datenschutz.bremen.de
+        </p>
+
+        <h4>5. Cookies & externe Dienste</h4>
+        <p>
+          Diese Website verwendet keine Cookies und keine externen Tracking-Dienste. Es werden keine Daten an Drittanbieter (Google Analytics, Facebook, etc.) übermittelt. Die Website wird ohne externe Schriftarten-Bibliotheken ausgeliefert.
+        </p>
+
+        <h4>6. Änderungen</h4>
+        <p>
+          Wir behalten uns vor, diese Datenschutzerklärung bei Bedarf anzupassen. Stand: Juni 2026.
+        </p>
+      </div>
+    </details>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <strong>KI-Kompass Bremen</strong><br>
+      Torre Ehlers<br>
+      Bremen
+    </div>
+    <div>
+      <strong>Kontakt</strong><br>
+      torreehlers@gmx.de<br>
+      +49 1575 6618899
+    </div>
+    <div>
+      <strong>Leistungen</strong><br>
+      Quick-Check · Workshop · Strategie
+    </div>
+    <div>
+      <strong>Rechtliches</strong><br>
+      <a href="#" onclick="document.getElementById('impressum').open = !document.getElementById('impressum').open; document.getElementById('impressum').scrollIntoView({behavior:'smooth'}); return false;" style="color:#64748b; text-decoration:none; font-size:12px;">Impressum</a><br>
+      <a href="#" onclick="document.getElementById('datenschutz').open = !document.getElementById('datenschutz').open; document.getElementById('datenschutz').scrollIntoView({behavior:'smooth'}); return false;" style="color:#64748b; text-decoration:none; font-size:12px;">Datenschutz</a>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>🎯 KI-Quick-Check anfordern</h3>
+    <p>Kostenlos. 30 Minuten. Ich melde mich innerhalb von 24 Stunden bei Ihnen.</p>
+    <input type="text" placeholder="Ihr Name">
+    <input type="text" placeholder="Ihr Betrieb">
+    <input type="tel" placeholder="Telefon (optional)">
+    <input type="email" placeholder="E-Mail">
+    <textarea placeholder="Was beschäftigt Sie? (optional)"></textarea>
+    <button class="btn-gold" onclick="this.textContent='✓ Anfrage gesendet!'; setTimeout(closeModal,1500)">Kostenlosen Termin anfordern</button>
+  </div>
+</div>
+
+<script>
+  function openModal() { document.getElementById('modal').classList.add('active'); }
+  function closeModal() { document.getElementById('modal').classList.remove('active'); }
+  document.getElementById('modal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+</script>
+</body>
+</html>
