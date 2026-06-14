@@ -9,7 +9,7 @@ const colorPalettes = {
     { name: 'Terrakotta', hex: '#CC6655', label: 'RAL 3012' },
     { name: 'Taubenblau', hex: '#6C7B8B', label: 'RAL 5014' },
     { name: 'Olivgrün', hex: '#556B2F', label: 'RAL 6003' },
-    { name: 'Dunkelrot', hex: '#8B0000', label: 'RAL 3005' },
+    { name: 'Kaminrot', hex: '#CC3333', label: 'RAL 3000' },
     { name: 'Hellblau', hex: '#87CEEB', label: 'RAL 5024' },
     { name: 'Salbeigrün', hex: '#9CAF88', label: 'RAL 6021' },
   ],

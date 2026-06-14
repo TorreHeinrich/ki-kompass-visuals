@@ -4,6 +4,7 @@ import ImageUploader from './components/ImageUploader';
 import BeforeAfterView from './components/BeforeAfterView';
 import { activeBranches, comingSoonBranches } from './data/branches';
 import { colorPalettes } from './components/ColorPalette';
+import { applyColorCorrection } from './utils/colorCorrect';
 import './App.css';
 
 const API_URL = import.meta.env.PROD
@@ -50,7 +51,15 @@ export default function App() {
         throw new Error(data.error || 'Fehler bei der Bildgenerierung');
       }
 
-      setResult(data.output);
+      // Farbkorrektur: FLUX-Ergebnis in Richtung Zielfarbe nachbearbeiten
+      try {
+        const corrected = await applyColorCorrection(imageBase64, data.output, color);
+        setResult(corrected);
+      } catch (corrErr) {
+        // Fallback: Wenn Farbkorrektur fehlschlägt, Original-Ergebnis verwenden
+        console.warn('Farbkorrektur fehlgeschlagen, verwende Original:', corrErr);
+        setResult(data.output);
+      }
     } catch (err) {
       setError(err.message || 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
     } finally {
