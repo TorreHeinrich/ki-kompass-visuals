@@ -510,6 +510,106 @@ body {
   border-top: 1px solid var(--border);
 }
 
+/* ===== COLOR PALETTE ===== */
+.color-palette {
+  margin-top: 4px;
+}
+
+.color-palette h4 {
+  color: var(--white);
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.color-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 8px;
+}
+
+.color-swatch {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 8px;
+  background: var(--navy-light);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: var(--cream);
+}
+
+.color-swatch:hover:not(:disabled) {
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.color-swatch.selected {
+  border-color: var(--gold);
+  background: rgba(218, 165, 32, 0.15);
+  box-shadow: 0 0 16px rgba(218, 165, 32, 0.25);
+}
+
+.color-swatch:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.swatch-preview {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.swatch-name {
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* ===== COMING SOON ===== */
+.coming-soon-section {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+}
+
+.coming-soon-title {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  text-align: center;
+}
+
+.coming-soon-grid .branch-card {
+  opacity: 0.45;
+  cursor: not-allowed;
+  position: relative;
+}
+
+.coming-soon-grid .branch-card:hover {
+  transform: none;
+  background: var(--navy-light);
+}
+
+.coming-soon-badge {
+  font-size: 0.6rem;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 768px) {
   .header-content {
@@ -519,6 +619,10 @@ body {
 
   .branch-grid {
     grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+
+  .color-grid {
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   }
 
   .prompt-grid {
