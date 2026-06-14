@@ -1,10 +1,9 @@
 import { useState, useCallback } from 'react';
 import Header from './components/Header';
 import ImageUploader from './components/ImageUploader';
-import BranchSelector from './components/BranchSelector';
-import PromptSelector from './components/PromptSelector';
-import ColorPalette from './components/ColorPalette';
 import BeforeAfterView from './components/BeforeAfterView';
+import { activeBranches, comingSoonBranches } from './data/branches';
+import { colorPalettes } from './components/ColorPalette';
 import './App.css';
 
 const API_URL = import.meta.env.PROD
@@ -12,47 +11,25 @@ const API_URL = import.meta.env.PROD
   : 'http://localhost:8888/.netlify/functions/generate';
 
 export default function App() {
-  const [image, setImage] = useState(null);
   const [imageBase64, setImageBase64] = useState(null);
-  const [branch, setBranch] = useState(null);
-  const [prompt, setPrompt] = useState(null);
-  const [color, setColor] = useState(null);
+  const [branch, setBranch] = useState(activeBranches[0]);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [generatingLabel, setGeneratingLabel] = useState('');
 
   const handleImage = useCallback((file, base64) => {
-    setImage(file);
     setImageBase64(base64);
     setResult(null);
     setError(null);
-    setPrompt(null);
-    setColor(null);
   }, []);
 
-  const handleBranchSelect = useCallback((b) => {
-    setBranch(b);
-    setPrompt(null);
-    setColor(null);
-    setResult(null);
-    setError(null);
-  }, []);
-
-  const handlePromptSelect = useCallback((p) => {
-    setPrompt(p);
-    setColor(null); // Reset color when prompt changes
-  }, []);
-
-  const handleColorSelect = useCallback(async (c) => {
-    setColor(c);
+  const handleGenerate = useCallback(async (promptObj, color) => {
+    const finalPrompt = promptObj.promptTemplate(color);
     setLoading(true);
+    setGeneratingLabel(`${promptObj.label} – ${color.name}`);
     setError(null);
     setResult(null);
-
-    // Build the final prompt with the selected color
-    const finalPrompt = prompt.promptTemplate
-      ? prompt.promptTemplate(c)
-      : prompt.prompt;
 
     try {
       const response = await fetch(API_URL, {
@@ -62,8 +39,8 @@ export default function App() {
           image: imageBase64,
           prompt: finalPrompt,
           branch: branch.id,
-          label: prompt.label,
-          color: c.name,
+          label: promptObj.label,
+          color: color.name,
         }),
       });
 
@@ -78,58 +55,119 @@ export default function App() {
       setError(err.message || 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
     } finally {
       setLoading(false);
+      setGeneratingLabel('');
     }
-  }, [imageBase64, branch, prompt]);
+  }, [imageBase64, branch]);
 
-  // Determine which color palette to show
-  const paletteKey = prompt?.paletteKey || branch?.colorPalette;
+  if (result) {
+    return (
+      <div className="app">
+        <Header />
+        <main className="main-content">
+          <BeforeAfterView
+            originalImage={imageBase64}
+            generatedImage={result}
+            isLoading={false}
+            error={null}
+            onReset={() => { setResult(null); setImageBase64(null); }}
+          />
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="app">
       <Header />
       <main className="main-content">
-        <div className="steps-container">
-          {!result && !loading && (
-            <>
-              <ImageUploader onImageReady={handleImage} />
+        {!imageBase64 ? (
+          <ImageUploader onImageReady={handleImage} />
+        ) : (
+          <div className="transform-panel">
+            {/* Image preview at top */}
+            <div className="panel-preview">
+              <img src={imageBase64} alt="Upload" className="panel-image" />
+              <button className="btn-change-image" onClick={() => setImageBase64(null)}>
+                📸 Anderes Foto
+              </button>
+            </div>
 
-              {image && (
-                <BranchSelector
-                  selectedBranch={branch}
-                  onSelectBranch={handleBranchSelect}
-                />
-              )}
+            {/* Branch tabs */}
+            <div className="branch-tabs">
+              {activeBranches.map((b) => (
+                <button
+                  key={b.id}
+                  className={`branch-tab ${branch.id === b.id ? 'active' : ''}`}
+                  onClick={() => setBranch(b)}
+                  style={{ '--branch-color': b.color }}
+                >
+                  <span className="tab-icon">{b.icon}</span>
+                  <span className="tab-name">{b.name}</span>
+                </button>
+              ))}
+            </div>
 
-              {branch && (
-                <PromptSelector
-                  prompts={branch.prompts}
-                  selectedPrompt={prompt}
-                  onSelectPrompt={handlePromptSelect}
-                  disabled={loading}
-                />
-              )}
+            {/* Loading state */}
+            {loading && (
+              <div className="panel-loading">
+                <div className="loading-spinner"></div>
+                <p className="loading-text">KI generiert: {generatingLabel}</p>
+                <p className="loading-sub">~5-10 Sekunden</p>
+              </div>
+            )}
 
-              {prompt && paletteKey && (
-                <ColorPalette
-                  paletteKey={paletteKey}
-                  selectedColor={color}
-                  onSelectColor={handleColorSelect}
-                  disabled={loading}
-                />
-              )}
-            </>
-          )}
+            {/* Error state */}
+            {error && (
+              <div className="panel-error">
+                <span className="error-icon">⚠️</span>
+                <p>{error}</p>
+                <button className="btn-dismiss" onClick={() => setError(null)}>OK</button>
+              </div>
+            )}
 
-          <BeforeAfterView
-            originalImage={imageBase64}
-            generatedImage={result}
-            isLoading={loading}
-            error={error}
-          />
-        </div>
+            {/* Transformation cards – all visible at once */}
+            {!loading && (
+              <div className="transform-cards">
+                {branch.prompts.map((prompt) => {
+                  const palette = colorPalettes[prompt.paletteKey] || [];
+                  return (
+                    <div key={prompt.id} className="transform-card">
+                      <h4 className="card-title">{prompt.label}</h4>
+                      <div className="card-colors">
+                        {palette.map((c) => (
+                          <button
+                            key={c.hex}
+                            className="color-chip"
+                            onClick={() => handleGenerate(prompt, c)}
+                            title={`${c.name} (${c.label})`}
+                          >
+                            <span className="chip-swatch" style={{ backgroundColor: c.hex }} />
+                            <span className="chip-label">{c.name}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {/* Coming Soon */}
+            <div className="coming-soon-section">
+              <h4 className="coming-soon-title">🔜 Weitere Branchen in Kürze</h4>
+              <div className="coming-soon-chips">
+                {comingSoonBranches.map((b) => (
+                  <span key={b.id} className="coming-soon-chip">
+                    {b.icon} {b.name}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
       </main>
       <footer className="app-footer">
-        <p>© 2026 KI-Kompass Bremen • Powered by FLUX AI • Maler & Fensterbauer MVP</p>
+        <p>© 2026 KI-Kompass Bremen • Powered by FLUX AI</p>
       </footer>
     </div>
   );
