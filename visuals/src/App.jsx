@@ -8,7 +8,7 @@ import { applyColorCorrection } from './utils/colorCorrect';
 import './App.css';
 
 const API_URL = import.meta.env.PROD
-  ? '/.netlify/functions/generate'
+  ? (import.meta.env.VITE_API_URL || 'https://ki-kompass-visuals.netlify.app/.netlify/functions/generate')
   : 'http://localhost:8888/.netlify/functions/generate';
 
 export default function App() {
