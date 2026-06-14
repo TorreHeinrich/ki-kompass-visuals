@@ -1,4 +1,7 @@
-// Branchen-Daten + Prompt-Vorlagen – v3 mit verbesserten Farb-Prompts
+// Branchen-Daten + Prompt-Vorlagen – v4
+// - Akzentwand entfernt (zu komplex für MVP)
+// - Prompts mit aggressiverer Farbangabe (HEX + Name + Kontext)
+// - Nur Fassade + Innenraum für Maler
 
 export const activeBranches = [
   {
@@ -13,21 +16,14 @@ export const activeBranches = [
         label: 'Fassade streichen',
         paletteKey: 'fassade',
         promptTemplate: (color) =>
-          `The entire exterior facade of this building is painted in ${color.name} (${color.label}). The walls are completely and uniformly ${color.name}. Professional painter finish, smooth even coat, crisp architectural details. The building facade is ${color.name} colored. Natural daylight. Photorealistic architectural photography.`,
+          `Change ONLY the exterior wall color of this building to ${color.name}. The walls become ${color.name}. Keep the roof, windows, doors, and all other elements exactly the same. Only the facade wall color changes to ${color.name}. Professional paint finish. Photorealistic.`,
       },
       {
         id: 'interior-paint',
         label: 'Innenraum streichen',
         paletteKey: 'innen',
         promptTemplate: (color) =>
-          `The walls of this room are painted entirely in ${color.name} (${color.label}). Every wall is ${color.name}. Smooth even paint coverage, professional interior painter finish. The room has ${color.name} walls. Bright natural light. Interior design photography, photorealistic.`,
-      },
-      {
-        id: 'accent-wall',
-        label: 'Akzentwand',
-        paletteKey: 'fassade',
-        promptTemplate: (color) =>
-          `Room with one accent wall painted ${color.name} (${color.label}), the other three walls are white. The ${color.name} wall is the focal point. Bold striking ${color.name} accent wall design. Modern interior. Natural light. Professional interior photography, photorealistic.`,
+          `Change ONLY the wall color of this room to ${color.name}. The walls become ${color.name}. Keep the floor, ceiling, furniture, windows, and all other elements exactly the same. Only the wall color changes to ${color.name}. Professional paint finish. Photorealistic.`,
       },
     ],
   },
@@ -43,21 +39,21 @@ export const activeBranches = [
         label: 'Neue Fenster',
         paletteKey: 'fenster',
         promptTemplate: (color) =>
-          `Same building with new modern windows. The window frames are exactly ${color.name} color. ${color.name} colored window frames throughout the building. Clean modern design. Double-glazed. Professional architectural photography, natural daylight, photorealistic.`,
+          `Change ONLY the window frame color of this building to ${color.name}. The window frames become ${color.name}. Keep the walls, roof, doors, and all other elements exactly the same. Only the window frame color changes to ${color.name}. Photorealistic.`,
       },
       {
         id: 'large-windows',
         label: 'Großflächenfenster',
         paletteKey: 'fenster',
         promptTemplate: (color) =>
-          `Same building with large floor-to-ceiling windows. The slim window frames are ${color.name}. ${color.name} colored modern window profiles. Maximum natural light. Contemporary architecture. Photorealistic.`,
+          `Change ONLY the window frame color of this building to ${color.name}. Large modern windows with ${color.name} frames. Keep the walls, roof, and all other elements exactly the same. Only the window frames change to ${color.name}. Photorealistic.`,
       },
       {
         id: 'front-door',
         label: 'Haustür erneuern',
         paletteKey: 'fenster',
         promptTemplate: (color) =>
-          `Same building with a new modern front door. The door is ${color.name} color. ${color.name} colored elegant entrance door. Stylish design with clean lines. Professional architectural photography, photorealistic.`,
+          `Change ONLY the front door color of this building to ${color.name}. The door becomes ${color.name}. Keep the walls, windows, roof, and all other elements exactly the same. Only the front door color changes to ${color.name}. Photorealistic.`,
       },
     ],
   },
@@ -72,7 +68,3 @@ export const comingSoonBranches = [
   { id: 'solarfirmen', name: 'Solarfirmen', icon: '☀️' },
   { id: 'immobilienmakler', name: 'Immobilienmakler', icon: '🏡' },
 ];
-
-export function getBranchById(id) {
-  return activeBranches.find((b) => b.id === id);
-}
