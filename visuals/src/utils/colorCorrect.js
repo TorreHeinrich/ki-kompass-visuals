@@ -20,7 +20,6 @@ export async function applyColorCorrection(originalBase64, generatedUrl, targetC
         loaded++;
         if (loaded < 2) return;
 
-        // Canvas für Verarbeitung
         const canvas = document.createElement('canvas');
         const ctx = canvas.getContext('2d');
         const w = Math.min(originalImg.naturalWidth, generatedImg.naturalWidth);
@@ -28,17 +27,14 @@ export async function applyColorCorrection(originalBase64, generatedUrl, targetC
         canvas.width = w;
         canvas.height = h;
 
-        // 1. Lade beide Bilder in Canvas
         ctx.drawImage(originalImg, 0, 0, w, h);
         const origData = ctx.getImageData(0, 0, w, h);
         ctx.drawImage(generatedImg, 0, 0, w, h);
         const genData = ctx.getImageData(0, 0, w, h);
 
-        // 2. Ziel-HSL aus HEX berechnen
         const targetRgb = hexToRgb(targetColor.hex);
         const targetHsl = rgbToHsl(targetRgb.r, targetRgb.g, targetRgb.b);
 
-        // 3. Pixelweise Korrektur
         const pixels = origData.data;
         const genPixels = genData.data;
         const outData = new ImageData(new Uint8ClampedArray(genPixels), w, h);
@@ -52,31 +48,18 @@ export async function applyColorCorrection(originalBase64, generatedUrl, targetC
           const genG = genPixels[i + 1];
           const genB = genPixels[i + 2];
 
-          // Prüfe ob dieser Pixel sich verändert hat (Änderungsmaske)
+          // Änderungsmaske: Nur Pixel nachfärben, die FLUX bereits verändert hat.
           const diff = colorDistance(origR, origG, origB, genR, genG, genB);
 
           if (diff > 15) {
-            // Pixel wurde von FLUX verändert → Farbe korrigieren
             const genHsl = rgbToHsl(genR, genG, genB);
-
-            // Ziel-Tönung auf den veränderten Pixel anwenden
-            // Mix: Hue vom Ziel, Saturation geboosted, Luminance vom generierten erhalten
-            const mixFactor = Math.min(1, diff / 80); // Stärker korrigieren bei großen Änderungen
-
-            const correctedH = targetHsl.h;
-            const correctedS = genHsl.s + (targetHsl.s - genHsl.s) * 0.5;
-            const correctedL = genHsl.l + (targetHsl.l - genHsl.l) * 0.15;
-
-            const { r, g, b } = hslToRgb(
-              lerp(genHsl.h, correctedH, mixFactor),
-              lerp(genHsl.s, correctedS, mixFactor * 0.7),
-              lerp(genHsl.l, correctedL, mixFactor * 0.3)
-            );
+            const mixFactor = Math.min(1, diff / 80);
+            const corrected = correctHslForTarget(genHsl, targetHsl, targetColor, mixFactor);
+            const { r, g, b } = hslToRgb(corrected.h, corrected.s, corrected.l);
 
             outPixels[i] = r;
             outPixels[i + 1] = g;
             outPixels[i + 2] = b;
-            // Alpha bleibt gleich
           }
         }
 
@@ -98,7 +81,47 @@ export async function applyColorCorrection(originalBase64, generatedUrl, targetC
   });
 }
 
+/**
+ * Reine Korrekturlogik, separat testbar.
+ * Root Cause des Rosé-Bugs: Für Rot wurde die zu hohe Luminance des KI-Ergebnisses
+ * fast vollständig behalten. Dadurch wurde Signalrot zu Rosé/Pastell.
+ */
+export function correctHslForTarget(genHsl, targetHsl, targetColor, mixFactor = 1) {
+  const redTarget = isRedTarget(targetHsl, targetColor);
+
+  if (redTarget) {
+    // Rot-Sonderfall: Ziel-Hue hart setzen, Sättigung hoch halten,
+    // Helligkeit deckeln. Sonst wird aus Rot bei hoher Luminance sofort Rosé.
+    const redMix = Math.max(0.85, mixFactor);
+    return {
+      h: targetHsl.h,
+      s: clamp(Math.max(targetHsl.s, genHsl.s, 0.82), 0.82, 0.96),
+      l: clamp(lerp(genHsl.l, Math.min(targetHsl.l, 0.46), redMix), 0.32, 0.52),
+    };
+  }
+
+  // Normalfall: Farbton sauber per Kreisinterpolation, Licht/Sättigung moderat ziehen.
+  const correctedS = genHsl.s + (targetHsl.s - genHsl.s) * 0.55;
+  const correctedL = genHsl.l + (targetHsl.l - genHsl.l) * 0.22;
+
+  return {
+    h: lerpHue(genHsl.h, targetHsl.h, mixFactor),
+    s: clamp(lerp(genHsl.s, correctedS, mixFactor * 0.75), 0, 1),
+    l: clamp(lerp(genHsl.l, correctedL, mixFactor * 0.45), 0, 1),
+  };
+}
+
 // ===== Hilfsfunktionen =====
+
+function isRedTarget(targetHsl, targetColor) {
+  const name = `${targetColor?.name || ''} ${targetColor?.label || ''} ${targetColor?.hex || ''}`.toLowerCase();
+  return name.includes('rot') ||
+    name.includes('red') ||
+    name.includes('signal') ||
+    name.includes('verkehr') ||
+    targetHsl.h <= 0.04 ||
+    targetHsl.h >= 0.96;
+}
 
 function hexToRgb(hex) {
   const h = hex.replace('#', '');
@@ -150,11 +173,20 @@ function hslToRgb(h, s, l) {
 }
 
 function colorDistance(r1, g1, b1, r2, g2, b2) {
-  return Math.sqrt(
-    (r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2
-  );
+  return Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2);
+}
+
+function lerpHue(a, b, t) {
+  let diff = b - a;
+  if (diff > 0.5) diff -= 1;
+  if (diff < -0.5) diff += 1;
+  return (a + diff * clamp(t, 0, 1) + 1) % 1;
 }
 
 function lerp(a, b, t) {
-  return a + (b - a) * Math.min(1, Math.max(0, t));
+  return a + (b - a) * clamp(t, 0, 1);
+}
+
+function clamp(value, min, max) {
+  return Math.min(max, Math.max(min, value));
 }

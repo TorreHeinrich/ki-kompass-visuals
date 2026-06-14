@@ -6,16 +6,22 @@
 
 const buildColorPrompt = (color, target, keepParts) => {
   // Für Rot-/Knallfarben: extra Vivid-Boost
+  const redBoost = isRedColor(color)
+    ? ' This must be real saturated red, NOT pink, NOT rose, NOT pastel, NOT salmon, NOT light red.'
+    : '';
   const vividBoost = isVividColor(color)
     ? ' The color MUST be bright, vivid, and fully saturated — exactly like this color.'
     : '';
-  return `Change ONLY the ${target} of this ${keepParts} to exactly this color: ${color.name} (${color.hex}). The ${target.split(' ')[0]} MUST become ${color.hex} — a ${color.name} color.${vividBoost} Keep all other elements exactly the same. Only the ${target} changes to ${color.name}.`;
+  return `Change ONLY the ${target} of this ${keepParts} to exactly this color: ${color.name} (${color.hex}). The ${target.split(' ')[0]} MUST become ${color.hex} — a ${color.name} color.${redBoost}${vividBoost} Keep all other elements exactly the same. Only the ${target} changes to ${color.name}.`;
 };
+
+function isRedColor(color) {
+  const lower = `${color.name || ''} ${color.label || ''} ${color.hex || ''}`.toLowerCase();
+  return lower.includes('rot') || lower.includes('red') || lower.includes('signal') || lower.includes('3020') || lower.includes('#cc0605');
+}
 
 // Bestimmt ob eine Farbe "knallig/leuchtend" ist — diese brauchen extra Vivid-Boost
 function isVividColor(color) {
-  const vivid = ['rot', 'red', 'blau', 'blue', 'gelb', 'yellow', 'gold', 'orange', 'pink', 'lila', 'purple', 'grün', 'green', 'hell'];
-  const lower = (color.name + ' ' + color.label + ' ' + color.hex).toLowerCase();
   // Check if it's a saturated/bright color
   // Parse hex to determine saturation
   const hex = color.hex.replace('#', '');
